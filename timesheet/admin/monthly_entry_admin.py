@@ -15,7 +15,7 @@ class DailyEntryInlineAdmin(TabularInlineMixin, admin.TabularInline):
             'fields': [
                 'monthly_entry',
                 'day',
-                'regular_hours',
+                'duration',
                 'entry_type']}
          ),)
 
@@ -28,8 +28,6 @@ class MonthlyEntryAdmin(admin.ModelAdmin):
         (None, {
             'fields': [
                 'employee',
-                'department',
-                'title',
                 'month']
             }),)
     

@@ -10,10 +10,6 @@ class MonthlyEntry(BaseUuidModel):
     
     employee = models.CharField(max_length=50)
     
-    department = models.CharField(max_length=50)
-    
-    title = models.CharField(max_length=50)
-    
     month = models.DateField()
 
 class DailyEntry(BaseUuidModel):
@@ -23,7 +19,7 @@ class DailyEntry(BaseUuidModel):
     day = models.DateField(
         unique=True)
     
-    regular_hours = models.IntegerField(
+    duration = models.IntegerField(
         validators=[MinValueValidator(0)])
     
     entry_type = models.CharField(
