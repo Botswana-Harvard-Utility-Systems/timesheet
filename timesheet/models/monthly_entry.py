@@ -2,13 +2,14 @@ from edc_base.model_mixins import BaseUuidModel
 from django.db.models.deletion import PROTECT
 from django.db import models
 from django.core.validators import MinValueValidator
+from bhp_personnel.models import Employee
 
 
 from ..choices import entry_type
 
 class MonthlyEntry(BaseUuidModel):
     
-    employee = models.CharField(max_length=50)
+    employee = models.ForeignKey(Employee, on_delete=PROTECT)
     
     month = models.DateField()
 

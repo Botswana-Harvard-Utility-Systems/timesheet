@@ -9,11 +9,13 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+ETC_DIR = '/etc/'
 
 APP_NAME = 'timesheet'
 # Quick-start development settings - unsuitable for production
@@ -22,27 +24,35 @@ APP_NAME = 'timesheet'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '9kygaeek(77$#ijdccizkj_)$dmd=21zl&3v95+4*42y3+stln'
 
+AUTO_CREATE_KEYS = False
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+SITE_ID = 1
 # Application definition
+
+KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crypto_fields.apps.AppConfig',
     'timesheet.apps.AppConfig',
+    'bhp_personnel.apps.AppConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
