@@ -18,6 +18,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ETC_DIR = '/etc/'
 
 APP_NAME = 'timesheet'
+
+LOGIN_REDIRECT_URL = 'home_url'
+
+INDEX_PAGE = 'timesheet.bhp.org.bw:8000'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -45,8 +49,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_crypto_fields.apps.AppConfig',
-    'timesheet.apps.AppConfig',
+    'edc_dashboard.apps.AppConfig',
+    'edc_appointment.apps.AppConfig',
+    'edc_base.apps.AppConfig',
+    'edc_lab.apps.AppConfig',
+    'edc_subject_dashboard.apps.AppConfig',
+    'edc_device.apps.AppConfig',
+    'edc_navbar.apps.AppConfig',
+    'edc_timepoint.apps.AppConfig',
     'bhp_personnel.apps.AppConfig',
+    'timesheet_dashboard.apps.AppConfig',
+    'timesheet.apps.AppConfig',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +71,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'edc_dashboard.middleware.DashboardMiddleware',
+    'edc_subject_dashboard.middleware.DashboardMiddleware',
 ]
 
 ROOT_URLCONF = 'timesheet.urls'
@@ -127,5 +142,18 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'timesheet', 'static')
+
+# dashboards
+DASHBOARD_URL_NAMES = {
+    'timesheet_listboard_url': 'timesheet_dashboard:timesheet_listboard_url',
+}
+
+DASHBOARD_BASE_TEMPLATES = {
+    'listboard_base_template': 'timesheet/base.html',
+    'dashboard_base_template': 'timesheet/base.html',
+    'timesheet_listboard_template': 'timesheet_dashboard/listboard.html',
+}

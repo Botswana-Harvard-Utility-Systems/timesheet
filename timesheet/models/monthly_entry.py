@@ -1,4 +1,5 @@
 from edc_base.model_mixins import BaseUuidModel
+from edc_base.sites.site_model_mixin import SiteModelMixin
 from django.db.models.deletion import PROTECT
 from django.db import models
 from django.core.validators import MinValueValidator
@@ -7,7 +8,7 @@ from bhp_personnel.models import Employee
 
 from ..choices import entry_type
 
-class MonthlyEntry(BaseUuidModel):
+class MonthlyEntry(SiteModelMixin, BaseUuidModel):
     
     employee = models.ForeignKey(Employee, on_delete=PROTECT)
     
