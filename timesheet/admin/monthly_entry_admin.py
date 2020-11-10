@@ -1,5 +1,5 @@
 from django.contrib import admin
-from edc_model_admin import TabularInlineMixin
+from edc_model_admin import audit_fieldset_tuple, TabularInlineMixin
 
 from ..models import DailyEntry, MonthlyEntry
 from ..forms import DailyEntryForm, MonthlyEntryForm
@@ -29,7 +29,7 @@ class MonthlyEntryAdmin(admin.ModelAdmin):
             'fields': [
                 'employee',
                 'month']
-            }),)
+            }),audit_fieldset_tuple)
     
     inlines = [DailyEntryInlineAdmin, ]
     

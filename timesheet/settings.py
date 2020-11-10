@@ -51,14 +51,15 @@ INSTALLED_APPS = [
     'django_crypto_fields.apps.AppConfig',
     'edc_dashboard.apps.AppConfig',
     'edc_appointment.apps.AppConfig',
-    'edc_base.apps.AppConfig',
     'edc_lab.apps.AppConfig',
     'edc_subject_dashboard.apps.AppConfig',
     'edc_device.apps.AppConfig',
     'edc_navbar.apps.AppConfig',
+    'edc_identifier.apps.AppConfig',
     'edc_timepoint.apps.AppConfig',
     'bhp_personnel.apps.AppConfig',
     'timesheet_dashboard.apps.AppConfig',
+    'timesheet.apps.EdcBaseAppConfig',
     'timesheet.apps.AppConfig',
 ]
 

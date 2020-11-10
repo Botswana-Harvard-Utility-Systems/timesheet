@@ -18,8 +18,7 @@ class DailyEntry(BaseUuidModel):
     
     monthly_entry = models.ForeignKey(MonthlyEntry, on_delete=PROTECT)
     
-    day = models.DateField(
-        unique=True)
+    day = models.DateField()
     
     duration = models.IntegerField(
         validators=[MinValueValidator(0)])
@@ -27,5 +26,8 @@ class DailyEntry(BaseUuidModel):
     entry_type = models.CharField(
         max_length=10,
         choices=entry_type)
+    
+    class Meta:
+        unique_together = ('day', 'entry_type')
     
     

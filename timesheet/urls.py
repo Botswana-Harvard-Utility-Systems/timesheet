@@ -17,6 +17,8 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path, include
+from django.views.generic.base import RedirectView
+from bhp_personnel.admin_site import bhp_personnel_admin
 
 from .admin_site import timesheet_admin
 from .views import HomeView, AdministrationView
@@ -29,13 +31,17 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
     path('admin/', timesheet_admin.urls),
+    path('admin/', bhp_personnel_admin.urls),
     
     path('administration/', AdministrationView.as_view(),
          name='administration_url'),
+    path('admin/timesheet/', RedirectView.as_view(url='admin/timesheet/'),
+         name='timesheet_models_url'),
     
 
     path('edc_base/', include('edc_base.urls')),
     path('edc_device/', include('edc_device.urls')),
+    path('bhp_personnel/', include('bhp_personnel.urls')),
     path('subject/', include('timesheet_dashboard.urls')),
     
     
