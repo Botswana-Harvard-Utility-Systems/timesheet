@@ -28,8 +28,6 @@ INDEX_PAGE = 'timesheet.bhp.org.bw:8000'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '9kygaeek(77$#ijdccizkj_)$dmd=21zl&3v95+4*42y3+stln'
 
-AUTO_CREATE_KEYS = False
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -38,7 +36,7 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 # Application definition
 
-KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')
+# KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')
 
 INSTALLED_APPS = [
     'django.contrib.admin',

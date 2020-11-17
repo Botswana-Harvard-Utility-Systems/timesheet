@@ -51,13 +51,13 @@ class EventAdmin(admin.ModelAdmin):
         next_month = datetime.date(year=next_month.year, month=next_month.month,
                                    day=1)  # find first day of next month
  
-        extra_context['previous_month'] = reverse('admin:timesheet_scheduling_changelist') + '?day__gte=' + str(
-            previous_month)
+#         extra_context['previous_month'] = reverse('admin:timesheet_scheduling_changelist') + '?day__gte=' + str(
+#             previous_month)
 #         request.resolver_match.url_name + '?day__gte=' + str(
 #             previous_month)
 #         reverse('admin:timesheet_event_changelist') + '?day__gte=' + str(
 #             previous_month)
-        extra_context['next_month'] = reverse('admin:timesheet_scheduling_changelist') + '?day__gte=' + str(next_month)
+#         extra_context['next_month'] = reverse('admin:timesheet_scheduling_changelist') + '?day__gte=' + str(next_month)
 #         request.resolver_match.url_name + '?day__gte=' + str(next_month)
 #         reverse('admin:timesheet_event_changelist') + '?day__gte=' + str(next_month)
  

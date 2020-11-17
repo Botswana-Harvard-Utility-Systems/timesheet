@@ -32,4 +32,3 @@ class MonthlyEntryAdmin(admin.ModelAdmin):
             }),audit_fieldset_tuple)
     
     inlines = [DailyEntryInlineAdmin, ]
-    
