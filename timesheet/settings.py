@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'bhp_personnel.apps.AppConfig',
     'timesheet_dashboard.apps.AppConfig',
     'timesheet.apps.EdcBaseAppConfig',
-    'timesheet.apps.AppConfig',
+    'timesheet'
 ]
 
 MIDDLEWARE = [

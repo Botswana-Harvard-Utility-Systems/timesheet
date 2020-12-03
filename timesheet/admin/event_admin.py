@@ -8,7 +8,7 @@ from django.utils.safestring import mark_safe
 from ..admin_site import timesheet_admin
 from ..models import Event
 from ..forms import EventForm
- 
+from .event_calender import EventCalendar
     
 @admin.register(Event, site=timesheet_admin)
 class EventAdmin(admin.ModelAdmin):
@@ -50,18 +50,17 @@ class EventAdmin(admin.ModelAdmin):
         next_month = next_month + datetime.timedelta(days=1)  # forward a single day
         next_month = datetime.date(year=next_month.year, month=next_month.month,
                                    day=1)  # find first day of next month
+        
+        extra_context['previous_month'] = reverse('timesheet_admin:timesheet_event_changelist') + '?day__gte=' + str(
+            previous_month)
+        request.resolver_match.url_name + '?day__gte=' + str(previous_month)
+        reverse('timesheet_admin:timesheet_event_changelist') + '?day__gte=' + str(
+                                                                                   previous_month)
+        extra_context['next_month'] = reverse('timesheet_admin:timesheet_event_changelist') + '?day__gte=' + str(next_month)
+        request.resolver_match.url_name + '?day__gte=' + str(next_month)
+        reverse('timesheet_admin:timesheet_event_changelist') + '?day__gte=' + str(next_month)
  
-#         extra_context['previous_month'] = reverse('admin:timesheet_scheduling_changelist') + '?day__gte=' + str(
-#             previous_month)
-#         request.resolver_match.url_name + '?day__gte=' + str(
-#             previous_month)
-#         reverse('admin:timesheet_event_changelist') + '?day__gte=' + str(
-#             previous_month)
-#         extra_context['next_month'] = reverse('admin:timesheet_scheduling_changelist') + '?day__gte=' + str(next_month)
-#         request.resolver_match.url_name + '?day__gte=' + str(next_month)
-#         reverse('admin:timesheet_event_changelist') + '?day__gte=' + str(next_month)
- 
-        cal = HTMLCalendar()
+        cal = EventCalendar()
         html_calendar = cal.formatmonth(d.year, d.month, withyear=True)
         html_calendar = html_calendar.replace('<td ', '<td  width="150" height="150"')
         extra_context['calendar'] = mark_safe(html_calendar)

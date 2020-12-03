@@ -5,6 +5,8 @@ from django.contrib.sites.shortcuts import get_current_site
 class AdminSite(DjangoAdminSite):
 
     site_url = '/administration/'
+    enable_nav_sidebar = False
+    site_header = 'Timesheets'
 
     def each_context(self, request):
         context = super().each_context(request)

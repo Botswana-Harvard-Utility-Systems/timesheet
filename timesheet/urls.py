@@ -35,13 +35,12 @@ urlpatterns = [
     
     path('administration/', AdministrationView.as_view(),
          name='administration_url'),
-    path('admin/timesheet/', RedirectView.as_view(url='admin/timesheet/'),
+    path('admin/', RedirectView.as_view(url='admin/timesheet/'),
          name='timesheet_models_url'),
     
 
     path('edc_base/', include('edc_base.urls')),
     path('edc_device/', include('edc_device.urls')),
-    path('bhp_personnel/', include('bhp_personnel.urls')),
     path('subject/', include('timesheet_dashboard.urls')),
     
     

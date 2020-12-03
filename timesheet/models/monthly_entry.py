@@ -6,13 +6,23 @@ from django.core.validators import MinValueValidator
 from bhp_personnel.models import Employee
 
 
-from ..choices import entry_type
+from ..choices import ENTRY_TYPE
 
 class MonthlyEntry(SiteModelMixin, BaseUuidModel):
     
     employee = models.ForeignKey(Employee, on_delete=PROTECT)
     
     month = models.DateField()
+    
+    @property
+    def total_hours(self):
+        daily_entries = DailyEntry.objects.filter(monthly_entry=self)
+        
+        total_hours = 0
+        
+        for h in daily_entries:
+            total_hours += h.duration
+        return total_hours
 
 class DailyEntry(BaseUuidModel):
     
@@ -25,7 +35,8 @@ class DailyEntry(BaseUuidModel):
     
     entry_type = models.CharField(
         max_length=10,
-        choices=entry_type)
+        choices=ENTRY_TYPE,
+        default='reg_hours')
     
     class Meta:
         unique_together = ('day', 'entry_type')

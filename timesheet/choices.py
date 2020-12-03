@@ -1,4 +1,4 @@
-entry_type = (
+ENTRY_TYPE = (
     ('reg_hours', 'Regular hours'),
     ('holiday', 'Holiday'),
     ('sick', 'Sick Leave'),
