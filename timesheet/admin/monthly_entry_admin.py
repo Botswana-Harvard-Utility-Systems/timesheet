@@ -33,7 +33,8 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
         (None, {
             'fields': [
                 'employee',
-                'month']
+                'month',
+                'supervisor']
             }),audit_fieldset_tuple)
     
     inlines = [DailyEntryInlineAdmin, ]

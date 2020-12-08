@@ -3,16 +3,23 @@ from edc_base.sites.site_model_mixin import SiteModelMixin
 from django.db.models.deletion import PROTECT
 from django.db import models
 from django.core.validators import MinValueValidator
-from bhp_personnel.models import Employee
+from bhp_personnel.models import Employee, Supervisor
 
 
-from ..choices import ENTRY_TYPE
+from ..choices import ENTRY_TYPE, STATUS
 
 class MonthlyEntry(SiteModelMixin, BaseUuidModel):
     
     employee = models.ForeignKey(Employee, on_delete=PROTECT)
     
+    supervisor = models.ForeignKey(Supervisor, on_delete=PROTECT)
+    
     month = models.DateField()
+    
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS,
+        default='new')
     
     @property
     def total_hours(self):
@@ -23,6 +30,9 @@ class MonthlyEntry(SiteModelMixin, BaseUuidModel):
         for h in daily_entries:
             total_hours += h.duration
         return total_hours
+    
+    class Meta:
+        unique_together = ('month', 'employee')
 
 class DailyEntry(BaseUuidModel):
     
