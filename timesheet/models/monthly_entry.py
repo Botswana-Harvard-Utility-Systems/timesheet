@@ -1,4 +1,5 @@
 from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_validators import date_not_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from django.db.models.deletion import PROTECT
 from django.db import models
@@ -38,7 +39,7 @@ class DailyEntry(BaseUuidModel):
     
     monthly_entry = models.ForeignKey(MonthlyEntry, on_delete=PROTECT)
     
-    day = models.DateField()
+    day = models.DateField(validators=[date_not_future, ],)
     
     duration = models.IntegerField(
         validators=[MinValueValidator(0)])
