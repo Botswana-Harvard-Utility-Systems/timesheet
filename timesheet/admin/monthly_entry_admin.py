@@ -64,6 +64,9 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
         elif request.POST.get('_reject'):
             obj.status = 'rejected'
             obj.save()
+        elif request.POST.get('_verify'):
+            obj.status = 'verified'
+            obj.save()
             
         if request.GET.dict().get('next'):
             url_name = request.GET.dict().get('next').split(',')[0]
@@ -95,10 +98,10 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
 #         return super().get_form(request, obj, **kwargs)
     
     def change_view(self, request, object_id, form_url='', extra_context=None):
-        if request.GET.get('edc_readonly'):
+        if request.GET.get('supervisor'):
             extra_context = {'review': True}
-        else:
-            extra_context = {'review': False}
+        if request.GET.get('hr'):
+            extra_context = {'verify': True}
 #         if self.get_object(request, object_id).status not in ['new', 'rejected']:
 #             extra_context = {'edc_readonly' : 1}
         return super().change_view(

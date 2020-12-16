@@ -14,7 +14,15 @@
    <input type="submit" title="Reject Timesheet Submission" value="{% trans 'Reject' %}" name="_reject" />
   </div>
 {% else %}
+	{% if verify %}
+	  <div class="submit-row">
+	   <input type="submit" value="{% trans 'Verify' %}" class="default" name="_verify" />
+	   <input type="submit" title="Leave form without saving" value="{% trans 'Cancel' %}" name="_cancel" />
+	   <input type="submit" title="Reject Timesheet Submission" value="{% trans 'Reject' %}" name="_reject" />
+	  </div>
+  {% else %}
    {% edc_submit_row %}
+  {% endif %}
 {% endif %}
 
   {% revision_row %}

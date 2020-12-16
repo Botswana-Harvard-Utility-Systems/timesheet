@@ -8,5 +8,6 @@ STATUS = (
     ('new', 'New'),
     ('submitted', 'Submitted'),
     ('approved', 'Approved'),
-    ('rejected', 'Rejected'))
+    ('rejected', 'Rejected'),
+    ('verified', 'Verified'))
     
