@@ -46,6 +46,6 @@ urlpatterns = [
     
     path('switch_sites/', LogoutView.as_view(next_page=settings.INDEX_PAGE),
          name='switch_sites_url'),
-    path('home/', HomeView.as_view(), name='home_url'),
-    path('', HomeView.as_view(), name='home_url'),
+    path('home/', HomeView.as_view(), name='timesheet_home_url'),
+    path('', HomeView.as_view(), name='timesheet_home_url'),
 ]

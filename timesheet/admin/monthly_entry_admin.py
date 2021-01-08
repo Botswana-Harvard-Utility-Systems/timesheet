@@ -50,7 +50,8 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
             'fields': [
                 'employee',
                 'month',
-                'supervisor']
+                'supervisor',
+                'comment']
             }),audit_fieldset_tuple)
     
     inlines = [DailyEntryInlineAdmin, ]
@@ -82,7 +83,7 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
     
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
-        if obj.status not in ['new', 'rejected']:
+        if obj and obj.status not in ['new', 'rejected']:
             for form_field in form.base_fields.values():
                 form_field.disabled = True
                 try:

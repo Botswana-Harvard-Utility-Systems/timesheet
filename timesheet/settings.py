@@ -149,10 +149,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'timesheet', 'static')
 # dashboards
 DASHBOARD_URL_NAMES = {
     'timesheet_listboard_url': 'timesheet_dashboard:timesheet_listboard_url',
+    'timesheet_employee_listboard_url': 'timesheet_dashboard:timesheet_employee_listboard_url',
 }
+
 
 DASHBOARD_BASE_TEMPLATES = {
     'listboard_base_template': 'timesheet/base.html',
     'dashboard_base_template': 'timesheet/base.html',
-    'timesheet_listboard_template': 'timesheet_dashboard/listboard.html',
+    'timesheet_listboard_template': 'timesheet_dashboard/timesheet_listboard.html',
+    'timesheet_employee_listboard_template': 'timesheet_dashboard/employee_listboard.html',
 }
+
