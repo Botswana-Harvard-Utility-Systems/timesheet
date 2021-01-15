@@ -99,9 +99,9 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
 #         return super().get_form(request, obj, **kwargs)
     
     def change_view(self, request, object_id, form_url='', extra_context=None):
-        if request.GET.get('supervisor'):
+        if (request.GET.get('p_role') == 'Supervisor'):
             extra_context = {'review': True}
-        if request.GET.get('hr'):
+        if (request.GET.get('p_role')=='HR'):
             extra_context = {'verify': True}
 #         if self.get_object(request, object_id).status not in ['new', 'rejected']:
 #             extra_context = {'edc_readonly' : 1}

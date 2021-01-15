@@ -23,12 +23,12 @@
     </p>
 	{% if 'HR' in groups %}
       <p class="h4">
-        <a href="{% url timesheet_employee_listboard_url %}&hr=True&edc_readonly='1'" class="btn btn-default btn-lg"><i class="fa fa-user-plus fa-lg"></i> All Employees</a>
+        <a href="{% url timesheet_employee_listboard_url %}?p_role=HR&edc_readonly=1" class="btn btn-default btn-lg"><i class="fa fa-user-plus fa-lg"></i> All Employees</a>
       </p>
 	{% endif %}
     {% if 'Supervisor' in groups %} 
       <p class="h4">
-        <a href="{% url timesheet_employee_listboard_url %}&supervisor=True&edc_readonly='1'" class="btn btn-default btn-lg"><i class="fa fa-user-circle fa-lg"></i> Surbodinates</a>
+        <a href="{% url timesheet_employee_listboard_url %}?p_role=Supervisor&edc_readonly=1" class="btn btn-default btn-lg"><i class="fa fa-user-circle fa-lg"></i> Surbodinates</a>
       </p>
 	{% endif %}
 
