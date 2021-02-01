@@ -19,7 +19,7 @@
 <div class="container bg-3 text-center">
 
 	<p class="h4">
-      <a href="{% url timesheet_listboard_url %}" class="btn btn-default btn-lg"><i class="fa fa-user-circle fa-lg"></i> My Timesheets</a>
+      <a href="{% url timesheet_listboard_url %}?employee_id={{employee_id}}" class="btn btn-default btn-lg"><i class="fa fa-user-circle fa-lg"></i> My Timesheets</a>
     </p>
 	{% if 'HR' in groups %}
       <p class="h4">
