@@ -9,18 +9,21 @@ FAVORITE_COLORS_CHOICES = [
 ]
 
 class MonthlyEntryForm(forms.ModelForm):
-    
+
     month = forms.DateField(
         widget=forms.SelectDateWidget()
         )
-    
+
     class Meta:
         model = MonthlyEntry
         fields = '__all__'
-        
+
 
 class DailyEntryForm(forms.ModelForm):
 
+    def clean(self):
+        cleaned_data = super().clean()
+        import pdb; pdb.set_trace()
 
     class Meta:
         model = DailyEntry

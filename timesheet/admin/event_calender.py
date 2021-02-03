@@ -39,14 +39,16 @@ class EventCalendar(HTMLCalendar):
 
         events = Event.objects.filter(day__month=themonth)
 
+#         import pdb; pdb.set_trace()
+
         v = []
         a = v.append
         a('<table border="0" cellpadding="0" cellspacing="0" class="month">')
         a('\n')
-        a(self.formatmonthname(theyear, themonth, withyear=withyear))
-        a('\n')
-        a(self.formatweekheader())
-        a('\n')
+#         a(self.formatmonthname(theyear, themonth, withyear=withyear))
+#         a('\n')
+#         a(self.formatweekheader())
+#         a('\n')
         for week in self.monthdays2calendar(theyear, themonth):
             a(self.formatweek(week, events))
             a('\n')

@@ -17,12 +17,6 @@ class MonthlyEntry(SiteModelMixin, BaseUuidModel):
 
     month = models.DateField(validators=[date_not_future, ],)
 
-    comment = models.TextField(
-        verbose_name="Comment",
-        max_length=150,
-        blank=True,
-        null=True)
-
     status = models.CharField(
         max_length=10,
         choices=STATUS,
