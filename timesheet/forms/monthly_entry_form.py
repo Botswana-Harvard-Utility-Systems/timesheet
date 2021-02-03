@@ -21,9 +21,9 @@ class MonthlyEntryForm(forms.ModelForm):
 
 class DailyEntryForm(forms.ModelForm):
 
-    def clean(self):
-        cleaned_data = super().clean()
-        import pdb; pdb.set_trace()
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         import pdb; pdb.set_trace()
 
     class Meta:
         model = DailyEntry
