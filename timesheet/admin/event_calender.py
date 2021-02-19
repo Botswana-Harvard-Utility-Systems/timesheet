@@ -39,8 +39,6 @@ class EventCalendar(HTMLCalendar):
 
         events = Event.objects.filter(day__month=themonth)
 
-#         import pdb; pdb.set_trace()
-
         v = []
         a = v.append
         a('<table border="0" cellpadding="0" cellspacing="0" class="month">')

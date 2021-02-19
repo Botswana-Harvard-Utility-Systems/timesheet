@@ -8,7 +8,7 @@ timesheet.append_item(
     NavbarItem(
         name='employee_timesheet',
         label='Timesheets',
-        fa_icon='fas fa-clock-o',
+        icon='fas fa-stopwatch',
         url_name=settings.DASHBOARD_URL_NAMES.get('timesheet_home_url')))
 
 site_navbars.register(timesheet)

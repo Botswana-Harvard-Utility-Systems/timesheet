@@ -75,7 +75,7 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
         elif request.POST.get('_verify'):
             obj.status = 'verified'
             obj.save()
-            
+        
         if request.GET.dict().get('next'):
             url_name = request.GET.dict().get('next').split(',')[0]
             attrs = request.GET.dict().get('next').split(',')[1:]
