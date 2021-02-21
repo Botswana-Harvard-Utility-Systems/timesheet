@@ -9,10 +9,6 @@ from edc_model_admin import ModelAdminNextUrlRedirectError
 from ..models import DailyEntry, MonthlyEntry
 from ..forms import DailyEntryForm, MonthlyEntryForm
 from ..admin_site import timesheet_admin
-import calendar
-from calendar import HTMLCalendar
-import datetime
-from .event_calender import EventCalendar
 from django.utils.safestring import mark_safe
 
 
@@ -28,7 +24,8 @@ class DailyEntryInlineAdmin(TabularInlineMixin,
                 'monthly_entry',
                 'day',
                 'duration',
-                'entry_type']}
+                'entry_type',
+                'row']}
          ),)
     
     def has_change_permission(self, request, obj):
