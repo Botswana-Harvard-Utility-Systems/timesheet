@@ -1,5 +1,8 @@
 from django.contrib import admin
 from django.contrib.admin.widgets import AdminDateWidget
+from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from django.conf import settings
 from django.forms.widgets import DateInput
 from django.urls.base import reverse
 from django.urls.exceptions import NoReverseMatch
@@ -9,6 +12,8 @@ from edc_model_admin import ModelAdminNextUrlRedirectError
 from ..models import DailyEntry, MonthlyEntry
 from ..forms import DailyEntryForm, MonthlyEntryForm
 from ..admin_site import timesheet_admin
+from smtplib import SMTPException
+
 import calendar
 from calendar import HTMLCalendar
 import datetime
@@ -72,9 +77,32 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
         elif request.POST.get('_reject'):
             obj.status = 'rejected'
             obj.save()
+            subject = f'Timesheet for {obj.month}'
+            message = (f'Dear {obj.employee.first_name}, Your timesheet '
+                       f'for {obj.month} has been {obj.status}')
+            from_email = settings.EMAIL_HOST_USER
+            user = obj.employee.email
+            try:
+                send_mail(subject, message, from_email, [user, ],
+                          fail_silently=False)
+            except SMTPException as e:
+                raise ValidationError(
+                    f'There was an error sending an email: {e}')
+
         elif request.POST.get('_verify'):
             obj.status = 'verified'
             obj.save()
+            subject = f'Timesheet for {obj.month}'
+            message = (f'Dear {obj.employee.first_name}, Your timesheet '
+                       f'for {obj.month} has been {obj.status}')
+            from_email = settings.EMAIL_HOST_USER
+            user = obj.employee.email
+            try:
+                send_mail(subject, message, from_email, [user, ],
+                          fail_silently=False)
+            except SMTPException as e:
+                raise ValidationError(
+                    f'There was an error sending an email: {e}')
         
         if request.GET.dict().get('next'):
             url_name = request.GET.dict().get('next').split(',')[0]

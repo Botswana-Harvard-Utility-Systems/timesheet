@@ -33,6 +33,7 @@ class MonthlyEntry(SiteModelMixin, BaseUuidModel):
         return total_hours
 
     class Meta:
+        app_label = 'timesheet'
         unique_together = ('month', 'employee')
 
 class DailyEntry(BaseUuidModel):
@@ -50,6 +51,7 @@ class DailyEntry(BaseUuidModel):
         default='reg_hours')
 
     class Meta:
+        app_label = 'timesheet'
         unique_together = ('day', 'entry_type')
 
 
