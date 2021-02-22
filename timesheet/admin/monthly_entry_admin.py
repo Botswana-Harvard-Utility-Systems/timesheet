@@ -33,7 +33,8 @@ class DailyEntryInlineAdmin(TabularInlineMixin,
                 'monthly_entry',
                 'day',
                 'duration',
-                'entry_type']}
+                'entry_type',
+                'row']}
          ),)
     
     def has_change_permission(self, request, obj):

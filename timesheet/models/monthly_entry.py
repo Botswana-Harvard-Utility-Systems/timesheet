@@ -40,9 +40,14 @@ class DailyEntry(BaseUuidModel):
 
     monthly_entry = models.ForeignKey(MonthlyEntry, on_delete=PROTECT)
 
-    day = models.DateField(validators=[date_not_future, ],)
+    day = models.DateField(
+#                            validators=[date_not_future, ]
+                            )
 
     duration = models.IntegerField(
+        validators=[MinValueValidator(0)])
+
+    row = models.IntegerField(
         validators=[MinValueValidator(0)])
 
     entry_type = models.CharField(
