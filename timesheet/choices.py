@@ -1,8 +1,11 @@
 ENTRY_TYPE = (
-    ('reg_hours', 'Regular hours'),
-    ('holiday', 'Holiday'),
-    ('sick', 'Sick Leave'),
-    ('leave', 'Regular Leave'))
+    ('RH', 'Regular hours'),
+    ('H', 'Holiday'),
+    ('SL', 'Sick Leave'),
+    ('RL', 'Regular Leave'),
+    ('ML', 'Maternity Leave'),
+    ('STL', 'Study Leave'),
+    ('CL', 'Compassionate Leave'))
 
 STATUS = (
     ('new', 'New'),
@@ -10,4 +13,4 @@ STATUS = (
     ('approved', 'Approved'),
     ('rejected', 'Rejected'),
     ('verified', 'Verified'))
-    
+

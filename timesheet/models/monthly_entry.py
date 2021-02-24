@@ -15,7 +15,14 @@ class MonthlyEntry(SiteModelMixin, BaseUuidModel):
 
     supervisor = models.ForeignKey(Supervisor, on_delete=PROTECT)
 
-    month = models.DateField(validators=[date_not_future, ],)
+    month = models.DateField(
+#                              validators=[date_not_future, ],
+                            )
+
+    comment = models.TextField(
+         max_length=100,
+         blank=True,
+         null=True)
 
     status = models.CharField(
         max_length=10,
