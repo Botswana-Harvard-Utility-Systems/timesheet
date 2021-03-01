@@ -67,6 +67,6 @@ class DailyEntry(BaseUuidModel):
 
     class Meta:
         app_label = 'timesheet'
-        unique_together = ('day', 'entry_type')
+        unique_together = ('monthly_entry', 'day', 'entry_type')
 
 
