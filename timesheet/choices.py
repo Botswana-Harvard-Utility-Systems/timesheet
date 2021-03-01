@@ -4,6 +4,7 @@ ENTRY_TYPE = (
     ('SL', 'Sick Leave'),
     ('RL', 'Regular Leave'),
     ('ML', 'Maternity Leave'),
+    ('PL', 'Paternity Leave'),
     ('STL', 'Study Leave'),
     ('CL', 'Compassionate Leave'))
 
