@@ -60,6 +60,8 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
 
     inlines = [DailyEntryInlineAdmin, ]
 
+    list_display = ('employee', 'month', 'comment')
+
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         if obj and obj.status not in ['new', 'rejected']:
