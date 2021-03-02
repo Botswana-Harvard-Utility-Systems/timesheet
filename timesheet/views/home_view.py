@@ -24,6 +24,7 @@ class HomeView(EdcBaseViewMixin, NavbarViewMixin, TemplateView):
 
         try:
             employee_obj = employee_cls.objects.get(email=self.request.user.email)
+
         except employee_cls.DoesNotExist:
             return None
         except employee_cls.MultipleObjectsReturned:
