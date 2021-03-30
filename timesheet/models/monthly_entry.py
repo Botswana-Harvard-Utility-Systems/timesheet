@@ -1,5 +1,4 @@
 from edc_base.model_mixins import BaseUuidModel
-from edc_base.model_validators import date_not_future
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_search.model_mixins import SearchSlugModelMixin
 from django.db.models.deletion import PROTECT
@@ -7,8 +6,8 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from bhp_personnel.models import Employee, Supervisor
 
-
 from ..choices import ENTRY_TYPE, STATUS
+
 
 class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
 
@@ -23,10 +22,41 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
          blank=True,
          null=True)
 
+    submitted_datetime = models.DateTimeField(
+        blank=True,
+        null=True)
+
     status = models.CharField(
         max_length=10,
         choices=STATUS,
         default='new')
+
+    approved_by = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True)
+
+    approved_date = models.DateField(
+        blank=True,
+        null=True)
+
+    verified_by = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True)
+
+    verified_date = models.DateField(
+        blank=True,
+        null=True)
+
+    rejected_by = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True)
+
+    rejected_date = models.DateField(
+        blank=True,
+        null=True)
 
     @property
     def total_hours(self):
@@ -48,6 +78,7 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
         app_label = 'timesheet'
         unique_together = ('month', 'employee')
 
+
 class DailyEntry(BaseUuidModel):
 
     monthly_entry = models.ForeignKey(MonthlyEntry, on_delete=PROTECT)
@@ -68,5 +99,4 @@ class DailyEntry(BaseUuidModel):
     class Meta:
         app_label = 'timesheet'
         unique_together = ('monthly_entry', 'day', 'entry_type')
-
 

@@ -3,12 +3,9 @@ from django.contrib.admin.widgets import AdminDateWidget
 from django.forms.widgets import DateInput
 from edc_model_admin import audit_fieldset_tuple, TabularInlineMixin, ModelAdminReadOnlyMixin
 from edc_model_admin import ModelAdminNextUrlRedirectMixin, ModelAdminAuditFieldsMixin
-from edc_model_admin import ModelAdminNextUrlRedirectError
 from ..models import DailyEntry, MonthlyEntry
 from ..forms import DailyEntryForm, MonthlyEntryForm
 from ..admin_site import timesheet_admin
-
-from django.utils.safestring import mark_safe
 
 
 class DailyEntryInlineAdmin(TabularInlineMixin,
@@ -38,7 +35,6 @@ class DailyEntryInlineAdmin(TabularInlineMixin,
             return request.user.username == obj.user_created
         else:
             return True
-
 
 
 @admin.register(MonthlyEntry, site=timesheet_admin)
@@ -76,7 +72,6 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
                 if isinstance(form_field.widget, AdminDateWidget):
                     form_field.widget = DateInput()
         return form
-
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         if (request.GET.get('p_role') == 'Supervisor'):
