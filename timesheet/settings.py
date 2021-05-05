@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'edc_lab.apps.AppConfig',
     'edc_subject_dashboard.apps.AppConfig',
     'edc_device.apps.AppConfig',
+    'edc_facility.apps.AppConfig',
     'edc_navbar.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
     'edc_timepoint.apps.AppConfig',
@@ -93,7 +94,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'timesheet.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -103,7 +103,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -123,7 +122,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -137,7 +135,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -149,13 +146,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'timesheet', 'static')
 DASHBOARD_URL_NAMES = {
     'timesheet_listboard_url': 'timesheet_dashboard:timesheet_listboard_url',
     'timesheet_employee_listboard_url': 'timesheet_dashboard:timesheet_employee_listboard_url',
+    'timesheet_calendar_table_url': 'timesheet_dashboard:timesheet_calendar_table_url',
+    'reports_dashboard_url': 'timesheet_dashboard:reports_dashboard_url',
 }
-
 
 DASHBOARD_BASE_TEMPLATES = {
     'listboard_base_template': 'timesheet/base.html',
     'dashboard_base_template': 'timesheet/base.html',
     'timesheet_listboard_template': 'timesheet_dashboard/timesheet_listboard.html',
     'timesheet_employee_listboard_template': 'timesheet_dashboard/employee_listboard.html',
+    'reports_dashboard_template': 'timesheet_dashboard/reports/dashboard.html',
 }
 

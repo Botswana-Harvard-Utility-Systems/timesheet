@@ -17,7 +17,6 @@ class HomeView(EdcBaseViewMixin, NavbarViewMixin, TemplateView):
                 employee_id=self.employee_id)
         return context
 
-
     @property
     def employee_id(self):
         employee_cls = django_apps.get_model('bhp_personnel.employee')

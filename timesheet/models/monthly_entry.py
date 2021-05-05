@@ -31,6 +31,27 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
         choices=STATUS,
         default='new')
 
+    monthly_overtime = models.IntegerField(
+        default=0)
+
+    annual_leave_taken = models.IntegerField(
+        default=0)
+
+    sick_leave_taken = models.IntegerField(
+        default=0)
+
+    study_leave_taken = models.IntegerField(
+        default=0)
+
+    compassionate_leave_taken = models.IntegerField(
+        default=0)
+
+    maternity_leave_taken = models.IntegerField(
+        default=0)
+
+    paternity_leave_taken = models.IntegerField(
+        default=0)
+
     approved_by = models.CharField(
         max_length=50,
         blank=True,
@@ -73,6 +94,9 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
         fields.append('employee')
         fields.append('supervisor')
         return fields
+
+    def __str__(self):
+        return(f'{self.employee} {self.month}')
 
     class Meta:
         app_label = 'timesheet'
