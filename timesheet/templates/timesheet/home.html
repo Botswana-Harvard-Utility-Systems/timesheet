@@ -3,6 +3,8 @@
 
 {% block extra-styles %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<link type="text/css" rel="stylesheet" href="{% static 'timesheet/css/buttons.css' %}">
+
 <style>
 .my-card
 {
@@ -11,73 +13,55 @@
     top:-20px;
     border-radius:50%;
 }
+
 </style>
+
 {% endblock extra-styles %}
 
 {% block main %}
-<br><br><br>
-<div class="text-center">
-<div class="row">
-     <div class="box">
-     	<div class="icon">
-       		<img src="{% static 'timesheet/images/timesheet-coloured.png' %}" width='100' height='100'/>
-       </div>
-     	<h1 style="font-weight:300; font-size:50px; line-height:1.5" class="title">Timesheet Dashboard</h1>
-          <h4><p class="description"><b></b></p></h4> 
-        </div>
- </div>
- <hr/>
- 
- <div class="row">
+
+<div class="pic-art" style="margin-top: 70px;display: inline-block;">
+    <img src="{% static 'timesheet/images/clip-992.png' %}" width='' height='550'/>
+</div>
+
+<div style="margin-top: 70px;float: right;display: inline-block;">
+    <h1 style="font-weight:300; font-size:50px; line-height:1.5" class="title">Timesheet Dashboard</h1>
+    <div class="card">
  	<div class="col-md-12">
 	     <div class="box">
 		       <div class="icon"><i class="ion-ios-analytics-outline" style="color: #ff689b;"></i></div>
-		       <p class="h3" style="font-weight:400;font-size:25px ">
-		       		<img src="{% static 'timesheet/images/stopwatch.png' %}" width='30' height='30'/> Timesheets
+		       <p class="h3" style="font-weight:400;font-size:25px;text-align: center">
+		       		<img src="{% static 'timesheet/images/stopwatch.png' %}" width='30' height='30'/> Timesheet's
 		       	</p>
 	     </div>
-   </div>
-</div>
-<hr/>
-
-<div class="row" style="width: 70%; margin: 0 auto;">
-   <div class="col-md-4">
-   {% if 'Supervisor' in groups %}
-	     <div class="box">
-		    <div class="icon"><i class="ion-ios-analytics-outline" style="color: #ff689b;"></i></div>
-
-		     <p class="h4">
-		       <a href="{% url timesheet_employee_listboard_url %}?p_role=Supervisor&edc_readonly=1" class="btn btn-default btn-md"><i class="fa fa-user-circle fa-lg"></i> Supervisees</a>
-     		</p>
-
-	     </div>
-	{% endif %}
-   </div>
-
-	<div class="col-md-4">
-	     <div class="box">
-		       <div class="icon"><i class="ion-ios-analytics-outline" style="color: #ff689b;"></i></div>
-		       <p class="h4"><a href="{% url timesheet_listboard_url %}?employee_id={{employee_id}}" class="btn btn-default btn-md"><i class="fa fa-user-circle fa-lg"></i> My Timesheets</a></p>
-   		</div>
-   </div>
-
-   <div class="col-md-4">
-   {% if 'HR' in groups %}
-	     <div class="box">
-		    <div class="icon"><i class="ion-ios-analytics-outline" style="color: #ff689b;"></i></div>
-
-		     <p class="h4">
-		       <a href="{% url timesheet_employee_listboard_url %}?p_role=HR&edc_readonly=1" class="btn btn-default btn-md"><i class="fa fa-user-plus fa-lg"></i> All Employees</a>
-		     </p>
-
-	     </div>
-	{% endif %}
-   
-   </div>
-  
+       </div>
+       <div class="btn-group-vertical" style="margin-left: 110px">
+          
+          {% if 'Supervisor' in groups %}
+          <p class="h4">
+              <a href="{% url timesheet_employee_listboard_url %}?p_role=Supervisor&edc_readonly=1">
+          <button class="btn-group__item btn-group__item"><i class="fa fa-user-circle fa-lg"></i>Supervisees</button>
+        </a>
+          </p>
+           {% endif %}
+           <p class="h4">
+              <a href="{% url timesheet_listboard_url %}?employee_id={{employee_id}}">
+          <button class="btn-group__item btn-group__item"><i class="fa fa-user-circle fa-lg"></i>My Timesheets</button>
+        </a>
+          </p>
+            {% if 'HR' in groups %}
+           <p class="h4">
+              <a href="{% url timesheet_employee_listboard_url %}?p_role=HR&edc_readonly=1">
+          <button class="btn-group__item btn-group__item"><i class="fa fa-user-plus fa-lg"></i> All Employees</button>
+        </a>
+          </p>
+          {% endif %}
+           
+        </div>
+    </div>
+    <hr/>
 </div>
 
 <hr/>
-</div>
 
 {% endblock main %}
