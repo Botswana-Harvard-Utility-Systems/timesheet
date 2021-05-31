@@ -120,6 +120,16 @@ class DailyEntry(BaseUuidModel):
         choices=ENTRY_TYPE,
         default='reg_hours')
 
+    day_indicator = models.BooleanField(
+        default=False,
+        null=True,
+        blank=True)
+
+    feeding_hour = models.BooleanField(
+        default=False,
+        null=True,
+        blank=True)
+
     class Meta:
         app_label = 'timesheet'
         unique_together = ('monthly_entry', 'day', 'entry_type')

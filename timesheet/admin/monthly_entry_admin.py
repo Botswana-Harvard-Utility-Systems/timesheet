@@ -21,7 +21,9 @@ class DailyEntryInlineAdmin(TabularInlineMixin,
                 'day',
                 'duration',
                 'entry_type',
-                'row']}
+                'row',
+                'day_indicator',
+                'feeding_hour']}
          ),)
 
     def has_change_permission(self, request, obj):
