@@ -9,13 +9,19 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ETC_DIR = '/etc/'
 
+APP_NAME = 'timesheet'
+
+LOGIN_REDIRECT_URL = 'home_url'
+
+INDEX_PAGE = 'timesheet.bhp.org.bw:8000'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -27,26 +33,45 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+SITE_ID = 1
 # Application definition
+
+# KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crypto_fields.apps.AppConfig',
+    'edc_dashboard.apps.AppConfig',
+    'edc_appointment.apps.AppConfig',
+    'edc_lab.apps.AppConfig',
+    'edc_subject_dashboard.apps.AppConfig',
+    'edc_device.apps.AppConfig',
+    'edc_facility.apps.AppConfig',
+    'edc_navbar.apps.AppConfig',
+    'edc_identifier.apps.AppConfig',
+    'edc_timepoint.apps.AppConfig',
+    'bhp_personnel.apps.AppConfig',
+    'timesheet_dashboard.apps.AppConfig',
+    'timesheet.apps.EdcBaseAppConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'edc_dashboard.middleware.DashboardMiddleware',
+    'edc_subject_dashboard.middleware.DashboardMiddleware',
 ]
 
 ROOT_URLCONF = 'timesheet.urls'
@@ -69,7 +94,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'timesheet.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -79,7 +103,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -99,7 +122,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -113,8 +135,26 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'timesheet', 'static')
+
+# dashboards
+DASHBOARD_URL_NAMES = {
+    'timesheet_listboard_url': 'timesheet_dashboard:timesheet_listboard_url',
+    'timesheet_employee_listboard_url': 'timesheet_dashboard:timesheet_employee_listboard_url',
+    'timesheet_calendar_table_url': 'timesheet_dashboard:timesheet_calendar_table_url',
+    'reports_dashboard_url': 'timesheet_dashboard:reports_dashboard_url',
+}
+
+DASHBOARD_BASE_TEMPLATES = {
+    'listboard_base_template': 'timesheet/base.html',
+    'dashboard_base_template': 'timesheet/base.html',
+    'timesheet_listboard_template': 'timesheet_dashboard/timesheet_listboard.html',
+    'timesheet_employee_listboard_template': 'timesheet_dashboard/employee_listboard.html',
+    'reports_dashboard_template': 'timesheet_dashboard/reports/dashboard.html',
+}
+
