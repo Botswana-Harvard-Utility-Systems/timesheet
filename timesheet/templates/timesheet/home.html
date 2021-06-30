@@ -44,11 +44,13 @@
         </a>
           </p>
            {% endif %}
+           {% if employee_id %}
            <p class="h4">
               <a href="{% url timesheet_listboard_url %}?employee_id={{employee_id}}">
           <button class="btn-group__item btn-group__item"><i class="fa fa-user-circle fa-lg"></i>My Timesheets</button>
         </a>
           </p>
+          {% endif %}
             {% if 'HR' in groups %}
            <p class="h4">
               <a href="{% url timesheet_employee_listboard_url %}?p_role=HR&edc_readonly=1">
