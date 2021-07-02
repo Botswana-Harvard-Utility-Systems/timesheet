@@ -25,8 +25,14 @@ class HomeView(EdcBaseViewMixin, NavbarViewMixin, TemplateView):
             employee_obj = employee_cls.objects.get(email=self.request.user.email)
 
         except employee_cls.DoesNotExist:
-            return None
+            consultant_cls = django_apps.get_model('bhp_personnel.consultant')
+            try:
+                consultant_obj = consultant_cls.objects.get(email=self.request.user.email)
+            except consultant_cls.DoesNotExist:
+                return None
+            else:
+                return consultant_obj.identifier
         except employee_cls.MultipleObjectsReturned:
-            return None
+            raise
         else:
             return employee_obj.identifier
