@@ -13,8 +13,6 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
 
     employee = models.ForeignKey(Employee, on_delete=PROTECT)
 
-    supervisor = models.ForeignKey(Supervisor, on_delete=PROTECT)
-
     month = models.DateField()
 
     comment = models.TextField(
@@ -92,7 +90,7 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
     def get_search_slug_fields(self):
         fields = super().get_search_slug_fields()
         fields.append('employee')
-        fields.append('supervisor')
+        # fields.append('employee__supervisor')
         return fields
 
     def __str__(self):
