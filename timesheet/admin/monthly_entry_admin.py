@@ -1,8 +1,14 @@
 from django.contrib import admin
 from django.contrib.admin.widgets import AdminDateWidget
 from django.forms.widgets import DateInput
-from edc_model_admin import audit_fieldset_tuple, TabularInlineMixin, ModelAdminReadOnlyMixin
-from edc_model_admin import ModelAdminNextUrlRedirectMixin, ModelAdminAuditFieldsMixin
+from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
+from edc_base.sites.admin import ModelAdminSiteMixin
+from edc_model_admin import audit_fieldset_tuple, TabularInlineMixin
+from edc_model_admin import (
+    ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
+    ModelAdminFormAutoNumberMixin, ModelAdminAuditFieldsMixin,
+    ModelAdminReadOnlyMixin, ModelAdminInstitutionMixin,
+    ModelAdminRedirectOnDeleteMixin)
 from ..models import DailyEntry, MonthlyEntry
 from ..forms import DailyEntryForm, MonthlyEntryForm
 from ..admin_site import timesheet_admin
@@ -41,9 +47,14 @@ class DailyEntryInlineAdmin(TabularInlineMixin,
 
 @admin.register(MonthlyEntry, site=timesheet_admin)
 class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
+                        ModelAdminFormInstructionsMixin,
+                        ModelAdminFormAutoNumberMixin,
+                        ModelAdminRevisionMixin,
                         ModelAdminAuditFieldsMixin,
                         ModelAdminReadOnlyMixin,
-                        admin.ModelAdmin):
+                        ModelAdminInstitutionMixin,
+                        ModelAdminRedirectOnDeleteMixin,
+                        ModelAdminSiteMixin, admin.ModelAdmin):
 
     form = MonthlyEntryForm
 
