@@ -5,6 +5,8 @@ from django.db.models.deletion import PROTECT
 from django.db import models
 from django.core.validators import MinValueValidator
 from bhp_personnel.models import Employee, Supervisor
+from datetime import datetime, timedelta, time
+import datetime
 
 from ..choices import ENTRY_TYPE, STATUS
 
@@ -29,8 +31,10 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
         choices=STATUS,
         default='new')
 
-    monthly_overtime = models.IntegerField(
-        default=0)
+    monthly_overtime = models.CharField(
+        max_length=100,
+        blank=True,
+        default='0')
 
     annual_leave_taken = models.IntegerField(
         default=0)
@@ -80,12 +84,18 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
     @property
     def total_hours(self):
         daily_entries = DailyEntry.objects.filter(monthly_entry=self)
+        totalHours = timedelta(hours=0, minutes=0)
+        for daily_entry in daily_entries:
+            totalHours += timedelta(hours=daily_entry.duration.hour,
+                                    minutes=daily_entry.duration.minute)
 
-        total_hours = 0
+        if totalHours and totalHours.days > 0:
+            minutes, seconds = divmod(
+                totalHours.seconds + totalHours.days * 86400, 60)
+            hours, minutes = divmod(minutes, 60)
+            totalHours = f'{hours:d}:{minutes:02d}'
 
-        for h in daily_entries:
-            total_hours += h.duration
-        return total_hours
+        return str(totalHours)
 
     def get_search_slug_fields(self):
         fields = super().get_search_slug_fields()
@@ -107,8 +117,7 @@ class DailyEntry(BaseUuidModel):
 
     day = models.DateField()
 
-    duration = models.IntegerField(
-        validators=[MinValueValidator(0)])
+    duration = models.TimeField(auto_now=False, auto_now_add=False)
 
     row = models.IntegerField(
         validators=[MinValueValidator(0)])
@@ -131,4 +140,3 @@ class DailyEntry(BaseUuidModel):
     class Meta:
         app_label = 'timesheet'
         unique_together = ('monthly_entry', 'day', 'entry_type')
-
