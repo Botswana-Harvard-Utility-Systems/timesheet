@@ -8,6 +8,7 @@ ENTRY_TYPE = (
     ('PL', 'Paternity Leave'),
     ('STL', 'Study Leave'),
     ('CL', 'Compassionate Leave'),
+    ('OD', 'Off Day'),
     ('WE', 'Weekend'))
 
 STATUS = (
