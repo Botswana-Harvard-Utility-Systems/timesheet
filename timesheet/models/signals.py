@@ -22,8 +22,8 @@ def timesheet_notification(sender, instance, raw, created, **kwargs):
     site_url = f"https://{get_current_site(request=None).domain}"
     supervisor = employee.supervisor
     if not raw:
-        if created:
-            subject = "Timesheet submission"
+        if instance.status == 'submitted':
+            subject = "Timesheet Submission"
             recipient = supervisor.email
             body = f"""\
                         Dear {supervisor.first_name} {supervisor.last_name},
@@ -39,7 +39,7 @@ def timesheet_notification(sender, instance, raw, created, **kwargs):
                         Thank you,
                         """
             send_email(recipient, subject, body)
-        elif not created and instance.status == 'approved':
+        elif instance.status == 'approved':
             subject = "Timesheet Approval"
             recipient = "dthebe@bhp.org.bw"
             body = f"""\
