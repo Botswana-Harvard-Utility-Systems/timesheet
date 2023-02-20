@@ -110,6 +110,11 @@ class DailyEntry(BaseUuidModel):
     duration = models.IntegerField(
         validators=[MinValueValidator(0)])
 
+    duration_minutes = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(59)],
+        default=0,
+    )
+
     row = models.IntegerField(
         validators=[MinValueValidator(0)])
 
