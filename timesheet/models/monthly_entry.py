@@ -80,12 +80,16 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
     @property
     def total_hours(self):
         daily_entries = DailyEntry.objects.filter(monthly_entry=self)
-
-        total_hours = 0
-
-        for h in daily_entries:
-            total_hours += h.duration
+        total_hours = sum(entry.duration for entry in daily_entries)
+        total_minutes = sum(entry.duration_minutes for entry in daily_entries)
+        total_hours += total_minutes / 60
         return total_hours
+
+    def readable_total_hours(self):
+        hours = int(self.total_hours)
+        minutes = int((self.total_hours - hours) * 60)
+        time_string = f"{hours:02d} hours and {minutes:02d} minutes"
+        return time_string
 
     def get_search_slug_fields(self):
         fields = super().get_search_slug_fields()
