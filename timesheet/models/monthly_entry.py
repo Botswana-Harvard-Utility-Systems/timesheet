@@ -1,12 +1,15 @@
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_search.model_mixins import SearchSlugModelMixin
+from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.deletion import PROTECT
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+
 from bhp_personnel.models import Employee, Supervisor
 
-from ..choices import ENTRY_TYPE, STATUS
+from ..choices import ENTRY_TYPE, STATUS, OFF_DAY, HALF_DAY, REGULAR_DAY
 
 
 class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
@@ -26,7 +29,7 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
     status = models.CharField(
         max_length=10,
         choices=STATUS,
-        default='new')
+        default='draft')
 
     monthly_overtime = models.IntegerField(
         default=0)
@@ -84,6 +87,17 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
         total_hours += total_minutes // 60
         return total_hours
 
+    @property
+    def status_badge_color(self):
+        if self.status == 'draft':
+            return 'primary'
+        elif self.status in ['approved', 'verified']:
+            return 'success'
+        elif self.status == 'submitted':
+            return 'info'
+        elif self.status == 'rejected':
+            return 'danger'
+
     def readable_total_hours(self):
         hours = int(self.total_hours)
         minutes = int((self.total_hours - hours) * 60)
@@ -105,7 +119,8 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
 
 
 class DailyEntry(BaseUuidModel):
-    monthly_entry = models.ForeignKey(MonthlyEntry, on_delete=PROTECT)
+    monthly_entry = models.ForeignKey(
+        MonthlyEntry, on_delete=PROTECT, related_name='daily_entries')
 
     day = models.DateField()
 
@@ -118,12 +133,14 @@ class DailyEntry(BaseUuidModel):
     )
 
     row = models.IntegerField(
-        validators=[MinValueValidator(0)])
+        validators=[MinValueValidator(0)],
+        null=True,
+        blank=True)
 
     entry_type = models.CharField(
         max_length=10,
         choices=ENTRY_TYPE,
-        default='reg_hours')
+        default=REGULAR_DAY)
 
     day_indicator = models.BooleanField(
         default=False,
@@ -135,6 +152,46 @@ class DailyEntry(BaseUuidModel):
         null=True,
         blank=True)
 
+    @property
+    def half_day_hours(self):
+        return getattr(settings, 'TIMESHEET_HALF_DAY_HOURS', 4)
+
+    @property
+    def max_day_hours(self):
+        return getattr(settings, "TIMESHEET_REGULAR_DAY_HOURS", 24)
+
+    def clean(self):
+        if (self.day.year != self.monthly_entry.month.year or
+                self.day.month != self.monthly_entry.month.month):
+            raise ValidationError('Date must be within the monthly period.')
+
+        hours = int(self.duration) if self.duration is not None else None
+        if self.entry_type == OFF_DAY:
+            if hours is not None and hours != 0:
+                raise ValidationError(
+                    {'duration': 'Off day must have 0 hours.'})
+        elif self.entry_type == HALF_DAY:
+            if hours is None:
+                raise ValidationError(
+                    {'duration':
+                     f'Half day requires {self.half_day_hours} hours.'})
+            if hours != self.half_day_hours:
+                raise ValidationError(
+                    {'duration':
+                     f'Half day must be exactly {self.half_day_hours} hours.'})
+        elif self.entry_type == REGULAR_DAY:
+            if hours is not None and (hours < 1 or hours > self.max_day_hours):
+                raise ValidationError(
+                    {'duration':
+                     f'Regular hours must be between 1 and {self.max_day_hours}.'})
+
+    def save(self, *args, **kwargs):
+        # Normalize OFF DAYS to 0 hours to keep data tidy
+        if self.entry_type == OFF_DAY:
+            self.duration = 0
+        super().save(*args, **kwargs)
+
     class Meta:
         app_label = 'timesheet'
         unique_together = ('monthly_entry', 'day', 'entry_type')
+        ordering = ['day']

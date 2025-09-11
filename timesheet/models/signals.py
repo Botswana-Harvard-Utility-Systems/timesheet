@@ -38,7 +38,7 @@ def timesheet_notification(sender, instance, raw, created, **kwargs):
                         <br>
                         Thank you,
                         """
-            send_email(recipient, subject, body)
+            # send_email(recipient, subject, body)
         elif instance.status == 'approved':
             subject = "Timesheet Approval"
             recipient = "dthebe@bhp.org.bw"
@@ -58,4 +58,4 @@ def timesheet_notification(sender, instance, raw, created, **kwargs):
                         <br>
                         Thank you,
                         """
-            send_email(recipient, subject, body)
+            # send_email(recipient, subject, body)

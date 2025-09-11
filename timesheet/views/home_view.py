@@ -13,8 +13,9 @@ class HomeView(EdcBaseViewMixin, NavbarViewMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(
-                groups=[g.name for g in self.request.user.groups.all()],
-                employee_id=self.employee_id)
+            is_hr=self.request.user.groups.filter(name='HR').exists(),
+            is_supervisor=self.request.user.groups.filter(name='Supervisor').exists(),
+            employee_id=self.employee_id)
         return context
 
     @property

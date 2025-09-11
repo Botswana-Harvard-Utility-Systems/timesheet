@@ -1,5 +1,11 @@
+# Entry type constants
+OFF_DAY = 'OD'
+HALF_DAY = 'HD'
+REGULAR_DAY = 'RH'
+
+
 ENTRY_TYPE = (
-    ('RH', 'Regular hours'),
+    (REGULAR_DAY, 'Regular hours'),
     ('H', 'Holiday'),
     ('SL', 'Sick Leave'),
     ('AL', 'Annual Leave'),
@@ -8,10 +14,12 @@ ENTRY_TYPE = (
     ('PL', 'Paternity Leave'),
     ('STL', 'Study Leave'),
     ('CL', 'Compassionate Leave'),
-    ('OD', 'Off Day'),
+    (OFF_DAY, 'Off Day'),
+    (HALF_DAY, 'Half Day'),
     ('WE', 'Weekend'))
 
 STATUS = (
+    ('draft', 'Draft'),
     ('new', 'New'),
     ('submitted', 'Submitted'),
     ('approved', 'Approved'),
