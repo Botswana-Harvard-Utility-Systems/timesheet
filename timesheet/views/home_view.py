@@ -8,7 +8,7 @@ class HomeView(EdcBaseViewMixin, NavbarViewMixin, TemplateView):
 
     template_name = 'timesheet/home.html'
     navbar_name = 'timesheet'
-    navbar_selected_item = 'home'
+    navbar_selected_item = 'employee_timesheet'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -79,6 +79,16 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
         blank=True,
         null=True)
 
+    def __str__(self):
+        return (f'{self.employee} {self.month}')
+
+    def save(self, *args, **kwargs):
+        if self.status == 'rejected':
+            self._reset_approval_fields()
+        if self.status == 'submitted':
+            kwargs = self._reset_prev_reject_fields(**kwargs)
+        super().save(*args, **kwargs)
+
     @property
     def total_hours(self):
         daily_entries = DailyEntry.objects.filter(monthly_entry=self)
@@ -110,8 +120,29 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
         # fields.append('employee__supervisor')
         return fields
 
-    def __str__(self):
-        return (f'{self.employee} {self.month}')
+    def _reset_approval_fields(self):
+        if any([self.approved_by, self.approved_date,
+                self.verified_by, self.verified_date]):
+            self.approved_by = None
+            self.approved_date = None
+            self.verified_by = None
+            self.verified_date = None
+
+    def _reset_prev_reject_fields(self, **kwargs):
+        if any([self.rejected_by, self.rejected_date, ]):
+            self.rejected_by = None
+            self.rejected_date = None
+
+            overwrite = {'rejected_by', 'rejected_date'}
+            update_fields = kwargs.get('update_fields')
+            if update_fields is not None:
+                update_fields = set(update_fields) | overwrite
+                kwargs['update_fields'] = list(update_fields)
+        return kwargs
+
+    @property
+    def is_final(self):
+        return self.status == 'verified'
 
     class Meta:
         app_label = 'timesheet'

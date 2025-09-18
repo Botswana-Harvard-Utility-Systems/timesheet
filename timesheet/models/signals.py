@@ -48,7 +48,7 @@ def timesheet_notification(sender, instance, raw, created, **kwargs):
                         <br>
                         This is an automated notification to inform you that  {instance.approved_by},
                         has approved the {instance.month} timesheet for {employee.employee_code} 
-                        (Employee ID: {employee.employee_code}). 
+                        (Employee ID: {employee.employee_code}).
                         <br>
                         Please log in to the system to verify it.
                         <br>
