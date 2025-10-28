@@ -22,6 +22,11 @@ class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
         blank=True,
         null=True)
 
+    employee_comment = models.TextField(
+        max_length=100,
+        blank=True,
+        null=True)
+
     submitted_datetime = models.DateTimeField(
         blank=True,
         null=True)
@@ -196,11 +201,14 @@ class DailyEntry(BaseUuidModel):
                 self.day.month != self.monthly_entry.month.month):
             raise ValidationError('Date must be within the monthly period.')
 
+        employee_comment = self.monthly_entry.employee_comment
         hours = int(self.duration) if self.duration is not None else None
         if self.entry_type == OFF_DAY:
-            if hours is not None and hours != 0:
+            if hours is not None and hours != 0 and not bool(employee_comment):
                 raise ValidationError(
-                    {'duration': 'Off day must have 0 hours.'})
+                    {'duration':
+                     'Please add employee comment for hours added on Off day(s). '
+                     'Otherwise Off day must have 0 hours.'})
         elif self.entry_type == HALF_DAY:
             if hours is None:
                 raise ValidationError(
@@ -215,12 +223,6 @@ class DailyEntry(BaseUuidModel):
                 raise ValidationError(
                     {'duration':
                      f'Regular hours must be between 1 and {self.max_day_hours}.'})
-
-    def save(self, *args, **kwargs):
-        # Normalize OFF DAYS to 0 hours to keep data tidy
-        if self.entry_type == OFF_DAY:
-            self.duration = 0
-        super().save(*args, **kwargs)
 
     class Meta:
         app_label = 'timesheet'

@@ -65,12 +65,13 @@ class MonthlyEntryAdmin(ModelAdminNextUrlRedirectMixin,
                 'employee',
                 'month',
                 'supervisor',
-                'comment']
+                'comment',
+                'employee_comment']
             }), audit_fieldset_tuple)
 
     inlines = [DailyEntryInlineAdmin, ]
 
-    list_display = ('employee', 'month', 'comment')
+    list_display = ('employee', 'month', 'comment', 'employee_comment')
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)

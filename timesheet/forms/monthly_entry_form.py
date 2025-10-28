@@ -9,7 +9,7 @@ class MonthlyEntryForm(forms.ModelForm):
 
     class Meta:
         model = MonthlyEntry
-        fields = []
+        fields = ['employee_comment']
 
 
 class DailyEntryForm(forms.ModelForm):
