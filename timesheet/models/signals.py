@@ -41,14 +41,14 @@ def timesheet_notification(sender, instance, raw, created, **kwargs):
             send_email(recipient, subject, body)
         elif instance.status == 'approved':
             subject = "Timesheet Approval"
-            recipient = "dthebe@bhp.org.bw"
+            recipient = "dtlhalerwa@bhp.org.bw"
             body = f"""\
                         Dear HR,
                         <br>
                         <br>
                         This is an automated notification to inform you that  {instance.approved_by},
                         has approved the {instance.month} timesheet for {employee.employee_code} 
-                        (Employee ID: {employee.employee_code}). 
+                        (Employee ID: {employee.employee_code}).
                         <br>
                         Please log in to the system to verify it.
                         <br>
