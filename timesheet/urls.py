@@ -14,38 +14,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path, include
-from django.views.generic.base import RedirectView
+
 from bhp_personnel.admin_site import bhp_personnel_admin
 
 from .admin_site import timesheet_admin
-from .views import HomeView, AdministrationView
+from .views import HomeView
 
 app_name = 'timesheet'
 
 urlpatterns = [
     path('accounts/', include('edc_base.auth.urls')),
-    path('admin/', include('edc_base.auth.urls')),
-    
-    path('admin/', admin.site.urls),
-    path('admin/', timesheet_admin.urls),
-    path('admin/', bhp_personnel_admin.urls),
-    
-    path('administration/', AdministrationView.as_view(),
-         name='administration_url'),
-    path('admin/', RedirectView.as_view(url='admin/timesheet/'),
-         name='timesheet_models_url'),
-    
-
     path('edc_base/', include('edc_base.urls')),
     path('edc_device/', include('edc_device.urls')),
-    path('subject/', include('timesheet_dashboard.urls')),
-    
-    
+    path('timesheet_dashboard/', include('timesheet_dashboard.urls')),
+
+    path('personnel-admin/', bhp_personnel_admin.urls),
+
     path('switch_sites/', LogoutView.as_view(next_page=settings.INDEX_PAGE),
          name='switch_sites_url'),
+
+    path('administrator/', timesheet_admin.urls),
     path('home/', HomeView.as_view(), name='timesheet_home_url'),
     path('', HomeView.as_view(), name='timesheet_home_url'),
 ]
