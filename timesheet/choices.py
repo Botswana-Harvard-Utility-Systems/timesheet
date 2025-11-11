@@ -2,6 +2,7 @@
 OFF_DAY = 'OD'
 HALF_DAY = 'HD'
 REGULAR_DAY = 'RH'
+NOT_STARTED = 'NS'
 
 
 ENTRY_TYPE = (
@@ -16,6 +17,7 @@ ENTRY_TYPE = (
     ('CL', 'Compassionate Leave'),
     (OFF_DAY, 'Off Day'),
     (HALF_DAY, 'Half Day'),
+    (NOT_STARTED, 'Not started'),
     ('WE', 'Weekend'))
 
 STATUS = (

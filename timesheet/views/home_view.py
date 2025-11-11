@@ -14,7 +14,7 @@ class HomeView(EdcBaseViewMixin, NavbarViewMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context.update(
             is_hr=self.request.user.groups.filter(name='HR').exists(),
-            is_supervisor=self.request.user.groups.filter(name='Supervisor').exists(),
+            is_supervisor=self._is_supervisor,
             employee_id=self.employee_id)
         return context
 
@@ -37,3 +37,11 @@ class HomeView(EdcBaseViewMixin, NavbarViewMixin, TemplateView):
             raise
         else:
             return employee_obj.identifier
+
+    @property
+    def _is_supervisor(self):
+        user = self.request.user
+        supervisor_cls = django_apps.get_model('bhp_personnel.supervisor')
+        supervisor_group = user.groups.filter(name='Supervisor').exists()
+        supervisor_instance = supervisor_cls.objects.filter(email=user.email).exists()
+        return supervisor_group and supervisor_instance

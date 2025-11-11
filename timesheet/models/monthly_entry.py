@@ -9,7 +9,7 @@ from django.db import models
 
 from bhp_personnel.models import Employee, Supervisor
 
-from ..choices import ENTRY_TYPE, STATUS, OFF_DAY, HALF_DAY, REGULAR_DAY
+from ..choices import ENTRY_TYPE, STATUS, OFF_DAY, HALF_DAY, REGULAR_DAY, NOT_STARTED
 
 
 class MonthlyEntry(SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
@@ -223,6 +223,11 @@ class DailyEntry(BaseUuidModel):
                 raise ValidationError(
                     {'duration':
                      f'Regular hours must be between 1 and {self.max_day_hours}.'})
+        elif self.entry_type == NOT_STARTED:
+            if hours is not None and hours != 0:
+                raise ValidationError(
+                    {'duration':
+                     'Not started hours must be 0.'})
 
     class Meta:
         app_label = 'timesheet'
