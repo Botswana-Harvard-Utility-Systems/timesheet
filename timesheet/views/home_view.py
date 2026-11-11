@@ -13,7 +13,9 @@ class HomeView(EdcBaseViewMixin, NavbarViewMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(
-            is_hr=self.request.user.groups.filter(name='HR').exists(),
+            is_hr=(self.request.user.is_superuser or self.request.user.groups.filter(name='HR').exists()),
+            can_view_employee_timesheets=(self.request.user.is_superuser or self.request.user.groups.filter(name='HR').exists() or self._is_supervisor),
+            timesheet_review_role=('HR' if self.request.user.is_superuser or self.request.user.groups.filter(name='HR').exists() else 'Supervisor'),
             is_supervisor=self._is_supervisor,
             employee_id=self.employee_id)
         return context
