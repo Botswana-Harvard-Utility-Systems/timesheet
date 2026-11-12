@@ -25,11 +25,27 @@
         <h3 class="h5 mt-3 mb-1">My Timesheet</h3>
         <p class="text-secondary mb-3">View and submit your timesheet entries.</p>
         <div class="mt-auto">
-          <a href="{% url timesheet_listboard_url %}?employee_id={{employee_id}}" class="btn btn-primary w-100">Open</a>
+          {% if employee_id %}<a href="{% url timesheet_listboard_url %}?employee_id={{employee_id}}" class="btn btn-primary w-100">Open</a>{% else %}<p class="text-secondary mb-0">No employee profile is linked to your account.</p>{% endif %}
         </div>
       </div>
     </div>
   </div>
+
+  {% if can_view_employee_timesheets %}
+  <div class="col">
+    <div class="card h-100 shadow-sm border-0">
+      <div class="card-body d-flex flex-column">
+        <div class="d-flex align-items-start justify-content-between">
+          <div class="icon-badge"><i class="bi bi-files"></i></div>
+          <span class="badge text-bg-primary">{% if is_hr %}HR Access{% else %}Supervisor Access{% endif %}</span>
+        </div>
+        <h3 class="h5 mt-3 mb-1">All Employee Timesheets</h3>
+        <p class="text-secondary mb-3">{% if is_hr %}Browse every employee’s timesheets and filter by status.{% else %}Browse timesheets for employees you supervise and filter by status.{% endif %}</p>
+        <div class="mt-auto"><a href="{% url timesheet_listboard_url %}?p_role={{ timesheet_review_role }}" class="btn btn-primary w-100">View Timesheets</a></div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 
   {% if is_supervisor %}
   <!-- Supervisees Timesheets -->
